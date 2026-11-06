@@ -305,15 +305,13 @@ function fitCanvas(){
   try{
     const r = cv.getBoundingClientRect();
     const dpr = window.devicePixelRatio || 1;
-    const bw = Math.max(W, Math.min(1680, Math.floor(r.width * dpr)));
+    const bw = Math.max(1080, Math.min(1680, Math.floor(r.width * dpr)));
     if(cv.width !== bw){ cv.width = bw; cv.height = Math.round(H * bw / W); }
     ctx.setTransform(bw / W, 0, 0, bw / W, 0, 0);
   }catch(e){}
 }
 fitCanvas();
 window.addEventListener('resize', fitCanvas);
-const DPR = Math.min(window.devicePixelRatio || 1, 2);
-cv.width = W * DPR; cv.height = H * DPR; ctx.scale(DPR, DPR);
 
 const $ = id => document.getElementById(id);
 const scoreEl=$('score'), seedsEl=$('seeds'), bestEl=$('best'), fillEl=$('storefill'),
@@ -1454,6 +1452,10 @@ function draw(){
 
   drawBeetle();
 
+  /* 木屑（先画，垫在粮仓格文字下面，避免划线压字） */
+  ctx.strokeStyle = 'rgba(190,145,80,.8)'; ctx.lineWidth = 2; ctx.lineCap = 'round';
+  for(const s of shavings){ ctx.beginPath(); ctx.arc(s.x, s.y, s.l/2, s.a, s.a+2.2); ctx.stroke(); }
+
   /* 粮仓格 */
   for(let i=0;i<BINS.length;i++){
     const x = i*BIN_W;
@@ -1475,9 +1477,6 @@ function draw(){
   ctx.strokeStyle = '#a5712e'; ctx.lineWidth = 3.4;
   for(let i=0;i<=BINS.length;i++){ ctx.beginPath(); ctx.moveTo(i*BIN_W, BIN_TOP); ctx.lineTo(i*BIN_W, H); ctx.stroke(); }
   ctx.beginPath(); ctx.moveTo(0,BIN_TOP); ctx.lineTo(W,BIN_TOP); ctx.stroke();
-  /* 木屑 */
-  ctx.strokeStyle = 'rgba(190,145,80,.8)'; ctx.lineWidth = 2; ctx.lineCap = 'round';
-  for(const s of shavings){ ctx.beginPath(); ctx.arc(s.x, s.y, s.l/2, s.a, s.a+2.2); ctx.stroke(); }
 
   /* 投放仓鼠 + 瞄准线 */
   const bob = Math.sin(Date.now()/380)*2;
