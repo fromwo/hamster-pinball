@@ -1,4 +1,4 @@
-# 🐹 仓鼠种子弹珠 · Hamster Seed Pinball
+# 🐹 仓鼠弹珠 · Hamster Pinball
 
 A pachinko-style mini game powered by a **real hamster**. Drop sunflower seeds onto a
 pinball board of acorn pegs, carrot windmill spinners and a big running wheel — the
